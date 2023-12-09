@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ReactNode } from 'react';
+import ConvexProvider from '@/components/providers/ConvexProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,13 +17,14 @@ interface RootLayoutProps {
 
 const RootLayout = ({
   children,
-}: RootLayoutProps) => {
-  console.log();
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  );
-};
+}: RootLayoutProps) => (
+  <html lang="en">
+    <ConvexProvider>
+      <body className={inter.className}>
+        {children}
+      </body>
+    </ConvexProvider>
+  </html>
+);
 
 export default RootLayout;

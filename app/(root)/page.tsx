@@ -1,22 +1,9 @@
-/* eslint-disable */
+import Navbar from './_components/Navbar';
 
-import { Button } from "@/components/ui/common/shadcn/button";
-
-interface RootPageProps {
-  prop: string;
-}
-
-const RootPage = ({
-  prop,
-}: RootPageProps) => {
-  console.log();
-  return (
-    <div>
-      <Button>
-        aaa
-      </Button>
-    </div>
-  );
-}
+const RootPage = () => (
+  <div>
+    <Navbar />
+  </div>
+);
 
 export default RootPage;
