@@ -1,3 +1,70 @@
+
 {
-  "extends": "next/core-web-vitals"
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "next/core-web-vitals",
+    "airbnb",
+    "airbnb-typescript"
+  ],
+  "root": true,
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx",
+".ts", ".tsx"] }],
+    "no-param-reassign": ["error", {
+        "props": true,
+        "ignorePropertyModificationsFor": [
+            "state"
+        ]
+    }],
+    "import/extensions": [
+        "error",
+        "always",
+        {
+          "pattern": {
+            "js": "never",
+            "ts": "never",
+            "jsx": "never",
+            "tsx": "never"
+        }
+      }
+    ],
+    "quotes": [2, "single"],
+    "react/function-component-definition": [
+      "warn",
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "max-len": "off",
+    "no-unsafe-optional-chaining": "off",
+    "import/no-cycle": "off",
+    "consistent-return": "off",
+    "react/jsx-props-no-spreading": "off",
+    "prefer-destructuring": "off",
+    "no-alert": "off",
+    "no-array-index-key": "off",
+    "react/no-array-index-key": "off",
+    "react/require-default-props": "off",
+    "import/prefer-default-export": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.tsx"],
+      "rules": {
+        "react/prop-types": "off"
+      }
+    }
+  ]
 }
