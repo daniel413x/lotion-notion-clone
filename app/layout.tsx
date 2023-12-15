@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { ReactNode } from 'react';
 import ConvexProvider from '@/components/providers/ConvexProvider';
+import ThemeProvider from '@/components/providers/ThemeProvider';
 import siteConfig from '@/lib/config';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -36,7 +37,15 @@ const RootLayout = ({
   <html lang="en">
     <ConvexProvider>
       <body className={inter.className}>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          storageKey="lotion-theme-2"
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </ConvexProvider>
   </html>

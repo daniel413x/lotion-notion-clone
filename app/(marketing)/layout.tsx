@@ -8,9 +8,11 @@ interface MarketingLayoutProps {
 const MarketingLayout = ({
   children,
 }: MarketingLayoutProps) => (
-  <div>
+  <div className="h-full dark:bg-[#1f1f1f]">
     <Navbar />
-    {children}
+    <main className="pt-40">
+      {children}
+    </main>
   </div>
 );
 

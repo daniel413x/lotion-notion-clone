@@ -1,23 +1,42 @@
+'use client';
+
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-
 import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
+import useHasMounted from '@/lib/hooks/useHasMounted';
+
+const destructive = 'bg-destructive text-destructive-foreground hover:bg-destructive/90';
+const destructiveDark = `${destructive} bg-red-600`;
+const secondary = 'bg-secondary text-secondary-foreground hover:bg-secondary/80';
+const secondaryDark = secondary;
+const ghost = 'hover:bg-accent hover:text-accent-foreground';
+const ghostDark = ghost;
+const link = 'hover:bg-accent hover:text-accent-foreground';
+const linkDark = link;
+const outline = 'border border-input bg-background hover:bg-accent hover:text-accent-foreground';
+const outlineDark = outline;
+const defaultStyle = 'bg-primary text-primary-foreground hover:bg-primary/90';
+const defaultStyleDark = defaultStyle;
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        destructive:
-          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        outline:
-          'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-        secondary:
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
+        defaultStyle,
+        defaultStyleDark,
+        destructive,
+        destructiveDark,
+        outline,
+        outlineDark,
+        secondary,
+        secondaryDark,
+        ghost,
+        ghostDark,
+        link,
+        linkDark,
       },
       size: {
         default: 'h-10 px-4 py-2',
@@ -27,7 +46,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: 'default',
+      variant: 'defaultStyle',
       size: 'default',
     },
   },
@@ -41,9 +60,18 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({
-    className, variant, size, asChild = false, ...props
+    className, variant: argVariant, size, asChild = false, ...props
   }, ref) => {
     const Comp = asChild ? Slot : 'button';
+    const { theme } = useTheme();
+    const isDark = theme === 'dark';
+    let variant = argVariant || 'defaultStyle';
+    // automatically construct a dark style variant selector string if the theme is dark: destructiveDark, outlineDark, etc.
+    if (isDark && !variant.endsWith('Dark')) {
+    // ts can't evaluate the runtime conditionality; type as any
+      variant = `${variant}Dark` as any;
+    }
+    if (!useHasMounted()) return null;
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
