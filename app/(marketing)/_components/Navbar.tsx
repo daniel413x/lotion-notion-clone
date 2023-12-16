@@ -9,7 +9,7 @@ import { ModeToggle } from '@/components/ui/common/ModeToggle';
 import { DOCUMENTS_ROUTE } from '@/lib/data/routes';
 import Link from 'next/link';
 import Logo from './Logo';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../../../components/ui/common/LoadingSpinner';
 
 const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();

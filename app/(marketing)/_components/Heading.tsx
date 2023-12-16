@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { SignInButton } from '@clerk/clerk-react';
 import Link from 'next/link';
 import { DOCUMENTS_ROUTE } from '@/lib/data/routes';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../../../components/ui/common/LoadingSpinner';
 
 const Heading = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
