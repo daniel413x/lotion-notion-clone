@@ -8,6 +8,7 @@ import {
   ElementRef, MouseEvent, useEffect, useRef, useState,
 } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
+import UserItem from './UserItem';
 
 const Navigation = () => {
   const pathname = usePathname();
@@ -102,9 +103,7 @@ const Navigation = () => {
           />
         </Button>
         <div>
-          <p>
-            Action items
-          </p>
+          <UserItem />
         </div>
         <div className="mt-4">
           <p>
