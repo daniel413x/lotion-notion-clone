@@ -19,6 +19,7 @@ const outline = 'border border-input bg-background hover:bg-accent hover:text-ac
 const outlineDark = outline;
 const defaultStyle = 'bg-primary text-primary-foreground hover:bg-primary/90';
 const defaultStyleDark = defaultStyle;
+const blank = '[all: unset]';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
@@ -37,6 +38,7 @@ const buttonVariants = cva(
         ghostDark,
         link,
         linkDark,
+        blank,
       },
       size: {
         default: 'h-10 px-4 py-2',
@@ -67,7 +69,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const isDark = theme === 'dark';
     let variant = argVariant || 'defaultStyle';
     // automatically construct a dark style variant selector string if the theme is dark: destructiveDark, outlineDark, etc.
-    if (isDark && !variant.endsWith('Dark')) {
+    if (isDark && !variant.endsWith('Dark') && variant !== 'blank') {
     // ts can't evaluate the runtime conditionality; type as any
       variant = `${variant}Dark` as any;
     }
