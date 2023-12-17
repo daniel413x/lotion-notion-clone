@@ -5,6 +5,7 @@ import { ReactNode } from 'react';
 import ConvexProvider from '@/components/providers/ConvexProvider';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 import siteConfig from '@/lib/config';
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -44,6 +45,7 @@ const RootLayout = ({
           disableTransitionOnChange
           storageKey="lotion-theme-2"
         >
+          <Toaster position="bottom-center" />
           {children}
         </ThemeProvider>
       </body>

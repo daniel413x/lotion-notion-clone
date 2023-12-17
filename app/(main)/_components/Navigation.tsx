@@ -8,9 +8,12 @@ import {
   ElementRef, MouseEvent, useEffect, useRef, useState,
 } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 import UserItem from './UserItem';
 
 const Navigation = () => {
+  const documents = useQuery(api.documents.get);
   const pathname = usePathname();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isResizingRef = useRef(false);
@@ -106,9 +109,11 @@ const Navigation = () => {
           <UserItem />
         </div>
         <div className="mt-4">
-          <p>
-            Documents
-          </p>
+          {documents?.map((d) => (
+            <p key={d._id}>
+              {d.title}
+            </p>
+          ))}
         </div>
         <Button
           onMouseDown={handleResizerMouseDown}
