@@ -1,8 +1,15 @@
 'use client';
 
 import { Button } from '@/components/ui/common/shadcn/button';
+import { Skeleton } from '@/components/ui/common/shadcn/skeleton';
+import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
-import { ChevronDown, ChevronUp, LucideIcon } from 'lucide-react';
+import { useMutation } from 'convex/react';
+import {
+  ChevronDown, ChevronUp, LucideIcon, Plus,
+} from 'lucide-react';
+import { MouseEvent } from 'react';
+import { toast } from 'sonner';
 
 interface ItemProps {
   id?: Id<'documents'>;
@@ -10,8 +17,8 @@ interface ItemProps {
   expanded?: boolean;
   level?: number;
   isSearch?: boolean;
-  // active?: boolean;
-  // onExpand?: () => void;
+  active?: boolean;
+  onExpand?: () => void;
   onClick: () => void;
   icon: LucideIcon;
   label: string;
@@ -22,14 +29,37 @@ const Item = ({
   onClick,
   icon: Icon,
   label,
-  // active,
-  // onExpand,
+  active,
+  onExpand,
   documentIcon,
   isSearch,
   expanded,
   level,
 }: ItemProps) => {
+  console.log(active);
   const ChevronIcon = expanded ? ChevronDown : ChevronUp;
+  const handleExpand = (e: MouseEvent) => {
+    e.stopPropagation();
+    onExpand?.();
+  };
+  const create = useMutation(api.documents.create);
+  const onCreate = (e: MouseEvent) => {
+    e.stopPropagation();
+    if (!id) {
+      return;
+    }
+    const promise = create({ title: 'Untitled', parentDocument: id })
+      .then(() => {
+        if (!expanded) {
+          onExpand?.();
+        }
+        toast.promise(promise, {
+          loading: 'Creating a new note...',
+          success: 'New note created!',
+          error: 'Failed to create a new note.',
+        });
+      });
+  };
   return (
     <div
       style={{ paddingLeft: `${level ? (level * 12) + 12 : '12'}px` }}
@@ -42,9 +72,9 @@ const Item = ({
       />
       {!!id && (
       <Button
-        className="p-0 z-10"
+        className="p-0 z-10 w-4 h-4"
         variant="ghost"
-        onClick={() => {}}
+        onClick={handleExpand}
       >
         <ChevronIcon />
       </Button>
@@ -75,8 +105,33 @@ const Item = ({
           </span>
         </kbd>
       )}
+      {!id ? null : (
+        <div className="ml-auto flex items-center gap-x-2">
+          <Button
+            className="p-0 opacity-0 group-hover:opacity-100 h-4 w-4 ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 z-10"
+            variant="ghost"
+            onClick={onCreate}
+          >
+            <Plus
+              className="h-4 w-4 text-muted-foreground"
+            />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
+
+Item.Skeleton = ({
+  level,
+}: Pick<ItemProps, 'level'>) => (
+  <div
+    style={{ paddingLeft: `${level ? (level * 12) + 25 : '12'}px` }}
+    className="flex items-center gap-x-2 pt-2"
+  >
+    <Skeleton className="h-4 w-4 bg-neutral-300" />
+    <Skeleton className="h-4 w-[30%] bg-neutral-300" />
+  </div>
+);
 
 export default Item;
