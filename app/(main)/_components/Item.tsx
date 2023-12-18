@@ -1,12 +1,16 @@
 'use client';
 
 import { Button } from '@/components/ui/common/shadcn/button';
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
+} from '@/components/ui/common/shadcn/dropdown-menu';
 import { Skeleton } from '@/components/ui/common/shadcn/skeleton';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
+import { useUser } from '@clerk/clerk-react';
 import { useMutation } from 'convex/react';
 import {
-  ChevronDown, ChevronUp, LucideIcon, Plus,
+  ChevronDown, ChevronUp, LucideIcon, MoreHorizontal, Plus, Trash,
 } from 'lucide-react';
 import { MouseEvent } from 'react';
 import { toast } from 'sonner';
@@ -37,6 +41,7 @@ const Item = ({
   level,
 }: ItemProps) => {
   console.log(active);
+  const { user } = useUser();
   const ChevronIcon = expanded ? ChevronDown : ChevronUp;
   const handleExpand = (e: MouseEvent) => {
     e.stopPropagation();
@@ -59,6 +64,19 @@ const Item = ({
           error: 'Failed to create a new note.',
         });
       });
+  };
+  const archive = useMutation(api.documents.archive);
+  const onArchive = (e: MouseEvent) => {
+    e.stopPropagation();
+    if (!id) {
+      return;
+    }
+    const promise = archive({ id });
+    toast.promise(promise, {
+      loading: 'Moving to trash...',
+      success: 'Note moved to trash!',
+      error: 'Failed to archive note.',
+    });
   };
   return (
     <div
@@ -107,6 +125,35 @@ const Item = ({
       )}
       {!id ? null : (
         <div className="ml-auto flex items-center gap-x-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              asChild
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Button
+                className="p-0 opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm bg-transparent hover:bg-neutral-300 dark:hover:bg-neutral-600 z-10"
+              >
+                <MoreHorizontal
+                  className="h-4 w-4 text-muted-foreground"
+                />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-60" align="start" side="right" forceMount>
+              <DropdownMenuItem onClick={onArchive}>
+                {/* TODO */}
+                <Trash
+                  className="h-4 w-4 mr-2"
+                />
+                Delete
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <div className="text-xs text-muted-foreground p-2">
+                Last edited by:
+                {' '}
+                {user?.fullName}
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button
             className="p-0 opacity-0 group-hover:opacity-100 h-4 w-4 ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 z-10"
             variant="ghost"
