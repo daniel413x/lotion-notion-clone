@@ -1,5 +1,6 @@
 'use client';
 
+import ConfirmModal from '@/components/modals/ConfirmModal';
 import LoadingSpinner from '@/components/ui/common/LoadingSpinner';
 import { Button } from '@/components/ui/common/shadcn/button';
 import { Input } from '@/components/ui/common/shadcn/input';
@@ -89,13 +90,16 @@ const TrashBin = () => {
                 >
                   <Undo className="h-4 w-4 text-muted-foreground" />
                 </Button>
-                <Button
-                  className="rounded-sm p-2 hover:bg-neutral-200 z-10"
-                  onClick={() => onRemove(d._id)}
-                  variant="blank"
+                <ConfirmModal
+                  onConfirm={() => onRemove(d._id)}
                 >
-                  <Trash className="h-4 w-4 text-muted-foreground" />
-                </Button>
+                  <Button
+                    className="rounded-sm p-2 hover:bg-neutral-200 z-10"
+                    variant="blank"
+                  >
+                    <Trash className="h-4 w-4 text-muted-foreground" />
+                  </Button>
+                </ConfirmModal>
               </div>
             </div>
           </li>

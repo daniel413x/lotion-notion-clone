@@ -90,7 +90,7 @@ const Item = ({
       />
       {!!id && (
       <Button
-        className="p-0 z-10 w-4 h-4"
+        className="p-0 z-10 w-4 h-4 hover:bg-neutral-300 dark:hover:bg-neutral-600"
         variant="ghost"
         onClick={handleExpand}
       >
