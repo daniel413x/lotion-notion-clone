@@ -23,7 +23,7 @@ interface ItemProps {
   isSearch?: boolean;
   active?: boolean;
   onExpand?: () => void;
-  onClick: () => void;
+  onClick?: () => void;
   icon: LucideIcon;
   label: string;
 }
@@ -140,7 +140,6 @@ const Item = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-60" align="start" side="right" forceMount>
               <DropdownMenuItem onClick={onArchive}>
-                {/* TODO */}
                 <Trash
                   className="h-4 w-4 mr-2"
                 />

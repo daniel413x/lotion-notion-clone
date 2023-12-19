@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/common/shadcn/button';
 import { cn } from '@/lib/utils';
 import {
-  ChevronsLeft, MenuIcon, PlusCircle, Search, Settings,
+  ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import {
@@ -13,9 +13,11 @@ import { useMediaQuery } from 'usehooks-ts';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/common/shadcn/popover';
 import UserItem from './UserItem';
 import Item from './Item';
 import DocumentList from './DocumentList';
+import TrashBin from './TrashBin';
 
 const Navigation = () => {
   const create = useMutation(api.documents.create);
@@ -141,6 +143,22 @@ const Navigation = () => {
         </div>
         <div className="mt-4">
           <DocumentList />
+          <Item
+            onClick={handleCreate}
+            label="Add a page"
+            icon={Plus}
+          />
+          <Popover>
+            <PopoverTrigger className="w-full mt-4">
+              <Item label="Trash" icon={Trash} />
+            </PopoverTrigger>
+            <PopoverContent
+              side={isMobile ? 'bottom' : 'right'}
+              className="p-0 w-72"
+            >
+              <TrashBin />
+            </PopoverContent>
+          </Popover>
         </div>
         <Button
           onMouseDown={handleResizerMouseDown}

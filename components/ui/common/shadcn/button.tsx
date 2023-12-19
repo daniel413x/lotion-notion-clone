@@ -45,6 +45,7 @@ const buttonVariants = cva(
         sm: 'h-9 rounded-md px-3',
         lg: 'h-11 rounded-md px-8',
         icon: 'h-10 w-10',
+        blank: '',
       },
     },
     defaultVariants: {
@@ -62,16 +63,20 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({
-    className, variant: argVariant, size, asChild = false, ...props
+    className, variant: argVariant, size: argSize, asChild = false, ...props
   }, ref) => {
     const Comp = asChild ? Slot : 'button';
     const { theme } = useTheme();
     const isDark = theme === 'dark';
+    let size = argSize;
     let variant = argVariant || 'defaultStyle';
     // automatically construct a dark style variant selector string if the theme is dark: destructiveDark, outlineDark, etc.
     if (isDark && !variant.endsWith('Dark') && variant !== 'blank') {
     // ts can't evaluate the runtime conditionality; type as any
       variant = `${variant}Dark` as any;
+    }
+    if (!size && variant === 'blank') {
+      size = 'blank';
     }
     if (!useHasMounted()) return null;
     return (
