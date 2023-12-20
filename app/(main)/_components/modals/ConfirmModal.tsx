@@ -1,7 +1,7 @@
 import { MouseEvent, ReactNode } from 'react';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
-} from '../ui/common/shadcn/alert-dialog';
+} from '@/components/ui/common/shadcn/alert-dialog';
 
 interface ConfirmModalProps {
   children: ReactNode;

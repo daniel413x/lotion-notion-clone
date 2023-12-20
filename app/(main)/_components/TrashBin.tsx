@@ -1,6 +1,5 @@
 'use client';
 
-import ConfirmModal from '@/components/modals/ConfirmModal';
 import LoadingSpinner from '@/components/ui/common/LoadingSpinner';
 import { Button } from '@/components/ui/common/shadcn/button';
 import { Input } from '@/components/ui/common/shadcn/input';
@@ -12,6 +11,7 @@ import { Search, Trash, Undo } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { MouseEvent, useState } from 'react';
 import { toast } from 'sonner';
+import ConfirmModal from './modals/ConfirmModal';
 
 const TrashBin = () => {
   const router = useRouter();

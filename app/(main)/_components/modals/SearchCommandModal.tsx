@@ -11,9 +11,9 @@ import { useEffect } from 'react';
 import {
   CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
 } from '@/components/ui/common/shadcn/command';
-import useSearchModal from './useSearchModal';
+import useSearchModal from '../../hooks/useSearchModal';
 
-const SearchCommand = () => {
+const SearchCommandModal = () => {
   const { user } = useUser();
   const router = useRouter();
   const documents = useQuery(api.documents.getSearch);
@@ -66,4 +66,4 @@ const SearchCommand = () => {
   );
 };
 
-export default SearchCommand;
+export default SearchCommandModal;

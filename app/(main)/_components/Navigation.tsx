@@ -14,7 +14,7 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/common/shadcn/popover';
-import useSearchModal from './useSearchModal';
+import useSearchModal from '../hooks/useSearchModal';
 import UserItem from './UserItem';
 import Item from './Item';
 import DocumentList from './DocumentList';
