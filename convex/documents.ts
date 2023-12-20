@@ -104,6 +104,34 @@ export const create = mutation({
   },
 });
 
+export const update = mutation({
+  args: {
+    title: v.string(),
+    id: v.id('documents'),
+    content: v.optional(v.string()),
+    coverImage: v.optional(v.string()),
+    icon: v.optional(v.string()),
+    isPublished: v.optional(v.boolean()),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error('Not authenticated');
+    }
+    const userId = identity.subject;
+    const { id, ...props } = args;
+    const targetDocument = await ctx.db.get(args.id);
+    if (!targetDocument) {
+      throw new Error('Not found');
+    }
+    if (targetDocument.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+    const document = await ctx.db.patch(args.id, props);
+    return document;
+  },
+});
+
 export const restore = mutation({
   args: { id: v.id('documents') },
   handler: async (ctx, args) => {
@@ -184,5 +212,27 @@ export const getSearch = query({
       .order('desc')
       .collect();
     return documents;
+  },
+});
+
+export const getById = query({
+  args: { documentId: v.id('documents') },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    const document = await ctx.db.get(args.documentId);
+    if (!document) {
+      throw new Error('Not found');
+    }
+    if (document.isPublished && !document.isArchived) {
+      return document;
+    }
+    if (!identity) {
+      throw new Error('Not authenticated');
+    }
+    const userId = identity.subject;
+    if (document.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+    return document;
   },
 });

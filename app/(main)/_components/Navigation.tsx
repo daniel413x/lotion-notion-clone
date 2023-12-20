@@ -3,9 +3,9 @@
 import { Button } from '@/components/ui/common/shadcn/button';
 import { cn } from '@/lib/utils';
 import {
-  ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash,
+  ChevronsLeft, Plus, PlusCircle, Search, Settings, Trash,
 } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import {
   ElementRef, MouseEvent, useEffect, useRef, useState,
 } from 'react';
@@ -20,10 +20,13 @@ import Item from './Item';
 import DocumentList from './DocumentList';
 import TrashBin from './TrashBin';
 import useSettingsModal from '../hooks/useSettingsModal';
+import Navbar from './Navbar';
+import MenuButton from './MenuButton';
 
 const Navigation = () => {
   const create = useMutation(api.documents.create);
   const pathname = usePathname();
+  const params = useParams();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<'aside'>>(null);
@@ -115,7 +118,7 @@ const Navigation = () => {
         })}
       >
         <Button
-          className={cn('text-muted-foreground rounded-sm hover:bg-neutral-300 focus:hover:bg-neutral-300 focus:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0  group-hover/sidebar:opacity-100 group-focus/sidebar:opacity-100 focus:opacity-100 transition h-6 w-6', {
+          className={cn('text-muted-foreground rounded-sm hover:bg-neutral-300 focus:hover:bg-neutral-300 focus:bg-neutral-300 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600 absolute top-3 right-2 opacity-0  group-hover/sidebar:opacity-100 group-focus/sidebar:opacity-100 focus:opacity-100 transition h-6 w-6', {
             'opacity-100': isMobile,
           })}
           variant="ghost"
@@ -181,20 +184,13 @@ const Navigation = () => {
         )}
         ref={navbarRef}
       >
-        <nav className="bg-transparent px-3 py-2 w-full">
-          {isCollapsed ? (
-            <Button
-              className="h-6 w-6"
-              variant="ghost"
-              size="icon"
-              onClick={resetWidth}
-            >
-              <MenuIcon
-                className="h-6 w-6 text-muted-foreground"
-              />
-            </Button>
-          ) : null}
-        </nav>
+        {params.documentId ? (
+          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+        ) : (
+          <nav className="bg-transparent px-3 py-2 w-full">
+            <MenuButton onResetWidth={resetWidth} isCollapsed={isCollapsed} />
+          </nav>
+        )}
       </div>
     </>
   );
