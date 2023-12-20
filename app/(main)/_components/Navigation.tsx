@@ -14,6 +14,7 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/common/shadcn/popover';
+import useSearchModal from './useSearchModal';
 import UserItem from './UserItem';
 import Item from './Item';
 import DocumentList from './DocumentList';
@@ -77,6 +78,7 @@ const Navigation = () => {
       setTimeout(() => setIsResetting(false), 300);
     }
   };
+  const { onOpen } = useSearchModal();
   useEffect(() => {
     if (isMobile) {
       collapse();
@@ -125,7 +127,7 @@ const Navigation = () => {
         <div>
           <UserItem />
           <Item
-            onClick={() => {}}
+            onClick={onOpen}
             label="Search"
             icon={Search}
             isSearch

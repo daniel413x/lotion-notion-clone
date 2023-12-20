@@ -7,6 +7,7 @@ import {
 import { Skeleton } from '@/components/ui/common/shadcn/skeleton';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
+import { cn } from '@/lib/utils';
 import { useUser } from '@clerk/clerk-react';
 import { useMutation } from 'convex/react';
 import {
@@ -103,7 +104,9 @@ const Item = ({
         </div>
       ) : (
         <Icon
-          className="shrink-0 h-[18px] mr-2 text-muted-foreground"
+          className={cn('shrink-0 h-[18px] mr-2 text-muted-foreground', {
+            'h-5': isSearch,
+          })}
         />
       )}
       <span className="truncate">
