@@ -84,7 +84,7 @@ const TrashBin = () => {
               </span>
               <div className="flex items-center">
                 <Button
-                  className="rounded-sm p-2 hover:bg-neutral-200 z-10"
+                  className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 z-10"
                   onClick={(e) => onRestore(e, d._id)}
                   variant="blank"
                 >
@@ -94,7 +94,7 @@ const TrashBin = () => {
                   onConfirm={() => onRemove(d._id)}
                 >
                   <Button
-                    className="rounded-sm p-2 hover:bg-neutral-200 z-10"
+                    className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 z-10"
                     variant="blank"
                   >
                     <Trash className="h-4 w-4 text-muted-foreground" />

@@ -19,6 +19,7 @@ import UserItem from './UserItem';
 import Item from './Item';
 import DocumentList from './DocumentList';
 import TrashBin from './TrashBin';
+import useSettingsModal from '../hooks/useSettingsModal';
 
 const Navigation = () => {
   const create = useMutation(api.documents.create);
@@ -78,7 +79,8 @@ const Navigation = () => {
       setTimeout(() => setIsResetting(false), 300);
     }
   };
-  const { onOpen } = useSearchModal();
+  const { onOpen: onOpenSearch } = useSearchModal();
+  const { onOpen: onOpenSettings } = useSettingsModal();
   useEffect(() => {
     if (isMobile) {
       collapse();
@@ -127,13 +129,13 @@ const Navigation = () => {
         <div>
           <UserItem />
           <Item
-            onClick={onOpen}
+            onClick={onOpenSearch}
             label="Search"
             icon={Search}
             isSearch
           />
           <Item
-            onClick={() => {}}
+            onClick={onOpenSettings}
             label="Settings"
             icon={Settings}
           />

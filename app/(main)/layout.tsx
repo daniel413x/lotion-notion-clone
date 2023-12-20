@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import LoadingSpinner from '../../components/ui/common/LoadingSpinner';
 import Navigation from './_components/Navigation';
 import SearchCommandModal from './_components/modals/SearchCommandModal';
+import SettingsModal from './_components/modals/SettingsModal';
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -28,6 +29,7 @@ const MainLayout = ({
       <Navigation />
       <main className="flex-1 h-full overflow-y-auto">
         <SearchCommandModal />
+        <SettingsModal />
         {children}
       </main>
     </div>
