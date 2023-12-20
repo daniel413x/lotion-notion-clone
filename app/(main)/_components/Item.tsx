@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { useUser } from '@clerk/clerk-react';
 import { useMutation } from 'convex/react';
 import {
-  ChevronDown, ChevronUp, LucideIcon, MoreHorizontal, Plus, Trash,
+  ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus, Trash,
 } from 'lucide-react';
 import { MouseEvent } from 'react';
 import { toast } from 'sonner';
@@ -22,6 +22,7 @@ interface ItemProps {
   expanded?: boolean;
   level?: number;
   isSearch?: boolean;
+  isTrash?: boolean;
   active?: boolean;
   onExpand?: () => void;
   onClick?: () => void;
@@ -38,12 +39,13 @@ const Item = ({
   onExpand,
   documentIcon,
   isSearch,
+  isTrash,
   expanded,
   level,
 }: ItemProps) => {
   console.log(active);
   const { user } = useUser();
-  const ChevronIcon = expanded ? ChevronDown : ChevronUp;
+  const ChevronIcon = expanded ? ChevronDown : ChevronRight;
   const handleExpand = (e: MouseEvent) => {
     e.stopPropagation();
     onExpand?.();
@@ -84,11 +86,13 @@ const Item = ({
       style={{ paddingLeft: `${level ? (level * 12) + 12 : '12'}px` }}
       className="relative bg-transparent group min-h-[27px] text-sm pr-3 py-1 w-full hover:bg-primary/5 flex text-muted-foreground font-medium justify-start items-center"
     >
-      <Button
-        variant="blank"
-        className="inset-0 absolute w-full h-full"
-        onClick={onClick}
-      />
+      {isTrash ? null : (
+        <Button
+          variant="blank"
+          className="inset-0 absolute w-full h-full"
+          onClick={onClick}
+        />
+      )}
       {!!id && (
       <Button
         className="p-0 z-10 w-4 h-4 hover:bg-neutral-300 dark:hover:bg-neutral-600"
@@ -114,7 +118,7 @@ const Item = ({
       </span>
       {isSearch && (
         <kbd
-          className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"
+          className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border dark:border-white/5 bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"
         >
           <span
             className="text-xs pt-0.5"
