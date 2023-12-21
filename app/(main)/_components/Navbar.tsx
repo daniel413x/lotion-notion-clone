@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import MenuButton from './MenuButton';
 import Title from './Title';
+import Banner from './Banner';
 
 interface NavbarProps {
   isCollapsed: boolean;
@@ -32,12 +33,17 @@ const Navbar = ({
     return null;
   }
   return (
-    <nav className={cn(navbarStyling, 'gap-x-4 transition')}>
-      <MenuButton isCollapsed={isCollapsed} onResetWidth={onResetWidth} />
-      <div className="flex items-center justify-between w-full">
-        <Title document={document} />
-      </div>
-    </nav>
+    <>
+      <nav className={cn(navbarStyling, 'gap-x-4 transition')}>
+        <MenuButton isCollapsed={isCollapsed} onResetWidth={onResetWidth} />
+        <div className="flex items-center justify-between w-full">
+          <Title document={document} />
+        </div>
+      </nav>
+      {document.isArchived ? (
+        <Banner documentId={document._id} />
+      ) : null}
+    </>
   );
 };
 
