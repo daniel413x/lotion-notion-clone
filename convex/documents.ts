@@ -109,7 +109,7 @@ export const create = mutation({
 
 export const update = mutation({
   args: {
-    title: v.string(),
+    title: v.optional(v.string()),
     id: v.id('documents'),
     content: v.optional(v.string()),
     coverImage: v.optional(v.string()),
@@ -121,6 +121,18 @@ export const update = mutation({
     const { id, ...props } = args;
     await getDocumentAndVerifyOwnership(ctx, args.id, identity);
     const document = await ctx.db.patch(args.id, props);
+    return document;
+  },
+});
+
+export const removeIcon = mutation({
+  args: { id: v.id('documents') },
+  handler: async (ctx, args) => {
+    const identity = await getIdentity(ctx);
+    await getDocumentAndVerifyOwnership(ctx, args.id, identity);
+    const document = await ctx.db.patch(args.id, {
+      icon: undefined,
+    });
     return document;
   },
 });

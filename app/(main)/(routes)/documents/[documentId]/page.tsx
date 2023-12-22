@@ -1,18 +1,16 @@
-/* eslint-disable */
+import { Id } from '@/convex/_generated/dataModel';
+import DocumentIdPageContent from './_components/DocumentIdPageContent';
 
-interface DocumentIdProps {
-  prop: string;
+interface DocumentIdPageProps {
+  params: {
+    documentId: Id<'documents'>
+  };
 }
 
-const DocumentId = ({
-  prop,
-}: DocumentIdProps) => {
-  console.log();
-  return (
-    <div>
-      page
-    </div>
-  );
-}
+const DocumentIdPage = ({
+  params,
+}: DocumentIdPageProps) => (
+  <DocumentIdPageContent params={params} />
+);
 
-export default DocumentId;
+export default DocumentIdPage;
