@@ -43,7 +43,6 @@ const Item = ({
   expanded,
   level,
 }: ItemProps) => {
-  console.log(active);
   const { user } = useUser();
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
   const handleExpand = (e: MouseEvent) => {
@@ -84,7 +83,9 @@ const Item = ({
   return (
     <div
       style={{ paddingLeft: `${level ? (level * 12) + 12 : '12'}px` }}
-      className="relative bg-transparent group min-h-[27px] text-sm pr-3 py-1 w-full hover:bg-primary/5 flex text-muted-foreground font-medium justify-start items-center"
+      className={cn('relative bg-transparent group min-h-[27px] text-sm pr-3 py-1 w-full hover:bg-primary/5 flex text-muted-foreground font-medium justify-start items-center', {
+        'bg-primary/5 text-primary': active,
+      })}
     >
       {isTrash ? null : (
         <Button

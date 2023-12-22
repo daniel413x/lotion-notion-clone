@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import MenuButton from './MenuButton';
 import Title from './Title';
 import Banner from './Banner';
+import CommandsMenu from './CommandsMenu';
 
 interface NavbarProps {
   isCollapsed: boolean;
@@ -21,11 +22,12 @@ const Navbar = ({
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<'documents'>,
   });
-  const navbarStyling = 'bg-background dark:bg-[#1f1f1f] py-2 px-3 w-full flex items-center';
+  const navbarStyling = 'bg-background dark:bg-[#1f1f1f] py-2 px-3 w-full flex items-center justify-between';
   if (document === undefined) {
     return (
       <nav className={cn(navbarStyling, 'justify-between')}>
         <Title.Skeleton />
+        <CommandsMenu.Skeleton />
       </nav>
     );
   }
@@ -38,6 +40,9 @@ const Navbar = ({
         <MenuButton isCollapsed={isCollapsed} onResetWidth={onResetWidth} />
         <div className="flex items-center justify-between w-full">
           <Title document={document} />
+          <div className="flex items-center gap-x-2">
+            <CommandsMenu documentId={document._id} />
+          </div>
         </div>
       </nav>
       {document.isArchived ? (
