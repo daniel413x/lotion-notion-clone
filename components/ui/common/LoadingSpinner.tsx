@@ -35,7 +35,7 @@ const LoadingSpinner = ({
     'w-full h-full flex items-center justify-center': center,
   })}
   >
-    <Loader className={cn(className, spinnerVariants({ size }))} />
+    <Loader className={spinnerVariants({ size })} />
   </div>
 );
 

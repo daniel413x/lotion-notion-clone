@@ -7,6 +7,7 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { ChangeEvent, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import useCoverImageModal from '@/app/(main)/(routes)/documents/[documentId]/_components/modals/useCoverImageModal';
 import { Button } from './shadcn/button';
 import IconPicker from './IconPicker';
 
@@ -19,6 +20,9 @@ const Toolbar = ({
   document,
   preview,
 }: ToolbarProps) => {
+  const {
+    onOpen,
+  } = useCoverImageModal();
   const {
     isEditing,
     textareaRef,
@@ -95,7 +99,7 @@ const Toolbar = ({
         ) : null}
         {(!document.coverImage && !preview) ? (
           <Button
-            onClick={() => null}
+            onClick={onOpen}
             className="text-muted-foreground text-xs"
             variant="outline"
             size="sm"

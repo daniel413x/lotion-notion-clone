@@ -6,6 +6,7 @@ import ConvexProvider from '@/components/providers/ConvexProvider';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 import siteConfig from '@/lib/config';
 import { Toaster } from 'sonner';
+import { EdgeStoreProvider } from '@/lib/edgestore';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -37,18 +38,20 @@ const RootLayout = ({
 }: RootLayoutProps) => (
   <html lang="en">
     <ConvexProvider>
-      <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          storageKey="lotion-theme-2"
-        >
-          <Toaster position="bottom-center" />
-          {children}
-        </ThemeProvider>
-      </body>
+      <EdgeStoreProvider>
+        <body className={inter.className}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            storageKey="lotion-theme-2"
+          >
+            <Toaster position="bottom-center" />
+            {children}
+          </ThemeProvider>
+        </body>
+      </EdgeStoreProvider>
     </ConvexProvider>
   </html>
 );
