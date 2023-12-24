@@ -9,6 +9,7 @@ import { api } from '@/convex/_generated/api';
 import { useMutation } from 'convex/react';
 import { useEdgeStore } from '@/lib/edgestore';
 import { Button } from './shadcn/button';
+import { Skeleton } from './shadcn/skeleton';
 
 interface CoverProps {
   coverImage?: string;
@@ -78,5 +79,9 @@ const Cover = ({
     </div>
   );
 };
+
+Cover.Skeleton = () => (
+  <Skeleton className="w-full h-[12vh]" />
+);
 
 export default Cover;
