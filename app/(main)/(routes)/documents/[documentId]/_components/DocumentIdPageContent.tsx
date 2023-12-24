@@ -4,6 +4,7 @@ import Toolbar from '@/components/ui/common/Toolbar';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { useQuery } from 'convex/react';
+import Cover from '@/components/ui/common/Cover';
 import CoverImageModal from './modals/CoverImageModal';
 
 interface DocumentIdPageContentProps {
@@ -36,7 +37,11 @@ const DocumentIdPageContent = ({
     <>
       <CoverImageModal />
       <div className="pb-40">
-        <div className="h-[35vh]" />
+        <Cover
+          coverImage={document.coverImage}
+          params={params}
+          preview={false}
+        />
         <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
           <Toolbar document={document} />
         </div>

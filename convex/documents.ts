@@ -137,6 +137,18 @@ export const removeIcon = mutation({
   },
 });
 
+export const removeCoverImage = mutation({
+  args: { id: v.id('documents') },
+  handler: async (ctx, args) => {
+    const identity = await getIdentity(ctx);
+    await getDocumentAndVerifyOwnership(ctx, args.id, identity);
+    const document = await ctx.db.patch(args.id, {
+      coverImage: undefined,
+    });
+    return document;
+  },
+});
+
 export const restore = mutation({
   args: { id: v.id('documents') },
   handler: async (ctx, args) => {

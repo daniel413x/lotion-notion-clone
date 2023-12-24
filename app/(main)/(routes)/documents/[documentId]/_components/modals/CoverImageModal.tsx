@@ -15,6 +15,7 @@ const CoverImageModal = () => {
   const {
     onClose,
     isOpen,
+    coverImageReplacementUrl,
   } = useCoverImageModal();
   const update = useMutation(api.documents.update);
   const [file, setFile] = useState<File>();
@@ -31,6 +32,10 @@ const CoverImageModal = () => {
       setFile(f);
       const res = await edgestore.publicFiles.upload({
         file: f,
+        options: {
+          // will handle either create (url=undefined) or update (url passed on modal open)
+          replaceTargetUrl: coverImageReplacementUrl,
+        },
       });
       await update({
         id: params.documentId as Id<'documents'>,
