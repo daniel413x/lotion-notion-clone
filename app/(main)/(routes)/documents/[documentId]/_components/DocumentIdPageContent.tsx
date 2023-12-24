@@ -3,10 +3,11 @@
 import Toolbar from '@/components/ui/common/Toolbar';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
-import { useQuery } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 import Cover from '@/components/ui/common/Cover';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/common/shadcn/skeleton';
+import Editor from '@/components/ui/common/Editor';
 import CoverImageModal from './modals/CoverImageModal';
 
 interface DocumentIdPageContentProps {
@@ -21,6 +22,7 @@ const DocumentIdPageContent = ({
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
   });
+  const update = useMutation(api.documents.update);
   const wrapperStyle = 'md:max-w-3xl lg:max-w-4xl mx-auto';
   if (document === undefined) {
     return (
@@ -44,6 +46,12 @@ const DocumentIdPageContent = ({
       </div>
     );
   }
+  const onChange = (content: string) => {
+    update({
+      id: params.documentId,
+      content,
+    });
+  };
   return (
     <>
       <CoverImageModal />
@@ -55,6 +63,10 @@ const DocumentIdPageContent = ({
         />
         <div className={wrapperStyle}>
           <Toolbar document={document} />
+          <Editor
+            onChange={onChange}
+            content={document.content || ''}
+          />
         </div>
       </div>
     </>
