@@ -7,12 +7,14 @@ import {
 import { Skeleton } from '@/components/ui/common/shadcn/skeleton';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
+import { DOCUMENTS_ROUTE } from '@/lib/data/routes';
 import { cn } from '@/lib/utils';
 import { useUser } from '@clerk/clerk-react';
 import { useMutation } from 'convex/react';
 import {
   ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus, Trash,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 import { toast } from 'sonner';
 
@@ -43,6 +45,7 @@ const Item = ({
   expanded,
   level,
 }: ItemProps) => {
+  const router = useRouter();
   const { user } = useUser();
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
   const handleExpand = (e: MouseEvent) => {
@@ -56,10 +59,11 @@ const Item = ({
       return;
     }
     const promise = create({ title: 'Untitled', parentDocument: id })
-      .then(() => {
+      .then((documentId) => {
         if (!expanded) {
           onExpand?.();
         }
+        router.push(`/${DOCUMENTS_ROUTE}/${documentId}`);
         toast.promise(promise, {
           loading: 'Creating a new note...',
           success: 'New note created!',
@@ -73,7 +77,10 @@ const Item = ({
     if (!id) {
       return;
     }
-    const promise = archive({ id });
+    const promise = archive({ id })
+      .then(() => {
+        router.push(`/${DOCUMENTS_ROUTE}`);
+      });
     toast.promise(promise, {
       loading: 'Moving to trash...',
       success: 'Note moved to trash!',
@@ -104,7 +111,7 @@ const Item = ({
       </Button>
       )}
       {documentIcon ? (
-        <div className="shrink-0 mr-2 text-[18px]">
+        <div className="shrink-0 ps-0.5 mr-2 h-[18px] w-[24px] text-[18px]">
           {documentIcon}
         </div>
       ) : (

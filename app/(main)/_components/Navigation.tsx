@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import {
   ChevronsLeft, Plus, PlusCircle, Search, Settings, Trash,
 } from 'lucide-react';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import {
   ElementRef, MouseEvent, useEffect, useRef, useState,
 } from 'react';
@@ -14,6 +14,7 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/common/shadcn/popover';
+import { DOCUMENTS_ROUTE } from '@/lib/data/routes';
 import useSearchModal from '../hooks/useSearchModal';
 import UserItem from './UserItem';
 import Item from './Item';
@@ -24,6 +25,7 @@ import Navbar from './Navbar';
 import MenuButton from './MenuButton';
 
 const Navigation = () => {
+  const router = useRouter();
   const create = useMutation(api.documents.create);
   const pathname = usePathname();
   const params = useParams();
@@ -101,7 +103,8 @@ const Navigation = () => {
   const handleCreate = () => {
     const promise = create({
       title: 'Untitled',
-    });
+    })
+      .then((documentId) => router.push(`/${DOCUMENTS_ROUTE}/${documentId}`));
     toast.promise(promise, {
       loading: 'Creating a new note...',
       success: 'New note created!',

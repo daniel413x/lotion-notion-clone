@@ -7,7 +7,8 @@ import { useMutation, useQuery } from 'convex/react';
 import Cover from '@/components/ui/common/Cover';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/common/shadcn/skeleton';
-import Editor from '@/components/ui/common/Editor';
+import { useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import CoverImageModal from './modals/CoverImageModal';
 
 interface DocumentIdPageContentProps {
@@ -19,6 +20,7 @@ interface DocumentIdPageContentProps {
 const DocumentIdPageContent = ({
   params,
 }: DocumentIdPageContentProps) => {
+  const Editor = useMemo(() => dynamic(() => import('@/components/ui/common/Editor'), { ssr: false }), []);
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
   });
