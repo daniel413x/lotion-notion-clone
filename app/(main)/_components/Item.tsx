@@ -103,7 +103,7 @@ const Item = ({
       )}
       {!!id && (
       <Button
-        className="p-0 z-10 w-4 h-4 hover:bg-neutral-300 dark:hover:bg-neutral-600"
+        className="p-0 z-10 w-4 h-4 mr-0.5 hover:bg-neutral-300 dark:hover:bg-neutral-600"
         variant="ghost"
         onClick={handleExpand}
       >
@@ -111,12 +111,12 @@ const Item = ({
       </Button>
       )}
       {documentIcon ? (
-        <div className="shrink-0 ps-0.5 mr-2 h-[18px] w-[24px] text-[18px]">
+        <div className="shrink-0 mr-2 h-[18px] text-[18px]">
           {documentIcon}
         </div>
       ) : (
         <Icon
-          className={cn('shrink-0 h-[18px] mr-2 text-muted-foreground', {
+          className={cn('shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground', {
             'h-5': isSearch,
           })}
         />
