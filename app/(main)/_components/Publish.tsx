@@ -61,7 +61,7 @@ const Publish = ({
       <PopoverTrigger asChild>
         <Button size="sm" variant="ghost">
           Publish
-          {' '}
+          {`${document.isPublished ? 'ed' : ' '}`}
           {document.isPublished ? (
             <Globe
               className="text-sky-500 w-4 h-4 ml-2"

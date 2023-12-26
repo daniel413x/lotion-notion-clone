@@ -9,16 +9,18 @@ import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/common/shadcn/skeleton';
 import { useMemo } from 'react';
 import dynamic from 'next/dynamic';
-import CoverImageModal from './modals/CoverImageModal';
+import CoverImageModal from '@/app/(main)/(routes)/documents/[documentId]/_components/modals/CoverImageModal';
 
 interface DocumentIdPageContentProps {
   params: {
     documentId: Id<'documents'>;
   };
+  preview?: boolean;
 }
 
 const DocumentIdPageContent = ({
   params,
+  preview,
 }: DocumentIdPageContentProps) => {
   const Editor = useMemo(() => dynamic(() => import('@/components/ui/common/Editor'), { ssr: false }), []);
   const document = useQuery(api.documents.getById, {
@@ -57,17 +59,18 @@ const DocumentIdPageContent = ({
   return (
     <>
       <CoverImageModal />
-      <div className="pb-40">
+      <div className="pb-40 dark:bg-[#1f1f1f]">
         <Cover
           coverImage={document.coverImage}
           params={params}
-          preview={false}
+          preview={preview}
         />
         <div className={wrapperStyle}>
-          <Toolbar document={document} />
+          <Toolbar document={document} preview={preview} />
           <Editor
             onChange={onChange}
             content={document.content || ''}
+            editable={!preview}
           />
         </div>
       </div>

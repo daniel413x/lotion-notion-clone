@@ -13,7 +13,7 @@ import { Skeleton } from './shadcn/skeleton';
 
 interface CoverProps {
   coverImage?: string;
-  preview: boolean;
+  preview?: boolean;
   params: {
     documentId: Id<'documents'>,
   }

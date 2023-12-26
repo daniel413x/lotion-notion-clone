@@ -115,7 +115,7 @@ const Toolbar = ({
           onBlur={disableEditing}
           value={title}
           onChange={onInput}
-          className="text-5xl bg-transparent font-bold break-words outline-none text-[#3f3f3f]"
+          className="text-5xl bg-transparent font-bold break-words outline-none text-[#3f3f3f] dark:text-[#cfcfcf]"
         />
       ) : (
         <Button

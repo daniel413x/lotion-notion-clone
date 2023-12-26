@@ -10,7 +10,10 @@ interface DocumentIdPageProps {
 const DocumentIdPage = ({
   params,
 }: DocumentIdPageProps) => (
-  <DocumentIdPageContent params={params} />
+  <DocumentIdPageContent
+    preview
+    params={params}
+  />
 );
 
 export default DocumentIdPage;
