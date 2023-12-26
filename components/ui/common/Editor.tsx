@@ -40,7 +40,7 @@ const Editor = ({
   });
   return (
     <BlockNoteView
-      className="mt-4"
+      className="mt-0"
       editor={editor}
       theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
     />

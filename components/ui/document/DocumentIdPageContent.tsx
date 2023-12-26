@@ -27,7 +27,10 @@ const DocumentIdPageContent = ({
     documentId: params.documentId,
   });
   const update = useMutation(api.documents.update);
-  const wrapperStyle = 'md:max-w-3xl lg:max-w-4xl mx-auto';
+  const wrapperStyle = cn('relative md:max-w-3xl lg:max-w-4xl mx-auto', {
+    'bottom-14': document?.icon,
+    'top-2': !document?.icon,
+  });
   if (document === undefined) {
     return (
       <div>
@@ -59,7 +62,7 @@ const DocumentIdPageContent = ({
   return (
     <>
       <CoverImageModal />
-      <div className="pb-40 dark:bg-[#1f1f1f]">
+      <div className="h-full pb-40 dark:bg-[#1f1f1f]">
         <Cover
           coverImage={document.coverImage}
           params={params}

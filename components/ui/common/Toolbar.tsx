@@ -2,7 +2,6 @@
 
 import { Doc } from '@/convex/_generated/dataModel';
 import { ImageIcon, Smile, X } from 'lucide-react';
-import useInlineEditing from '@/lib/hooks/useInlineEditing';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { ChangeEvent, useState } from 'react';
@@ -23,12 +22,6 @@ const Toolbar = ({
   const {
     onOpen,
   } = useCoverImageModal();
-  const {
-    isEditing,
-    textareaRef,
-    enableEditing,
-    disableEditing,
-  } = useInlineEditing();
   const [title, setTitle] = useState<string>(document.title);
   const update = useMutation(api.documents.update);
   const removeIcon = useMutation(api.documents.removeIcon);
@@ -81,7 +74,7 @@ const Toolbar = ({
           {document.icon}
         </p>
       ) : null}
-      <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 flex items-center gap-x-1 py-4">
+      <div className="absolute -top-12 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 flex items-center gap-x-1 py-4">
         {(!document.icon && !preview) ? (
           <IconPicker
             onChange={onIconSelect}
@@ -109,23 +102,12 @@ const Toolbar = ({
           </Button>
         ) : null}
       </div>
-      {(isEditing && !preview) ? (
-        <TextareaAutosize
-          ref={textareaRef}
-          onBlur={disableEditing}
-          value={title}
-          onChange={onInput}
-          className="text-5xl bg-transparent font-bold break-words outline-none text-[#3f3f3f] dark:text-[#cfcfcf]"
-        />
-      ) : (
-        <Button
-          variant="blank"
-          className="text-5xl font-bold break-words outline-none text-[#3f3f3f] dark:text-[#cfcfcf]"
-          onClick={enableEditing}
-        >
-          {document.title}
-        </Button>
-      )}
+      <TextareaAutosize
+        value={title}
+        onChange={onInput}
+        className="mt-4 text-5xl bg-transparent font-bold break-words outline-none text-[#3f3f3f] dark:text-[#cfcfcf] resize-none"
+        readOnly={preview}
+      />
     </div>
   );
 };
