@@ -7,7 +7,7 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { ChangeEvent, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import useCoverImageModal from '@/app/(main)/(routes)/documents/[documentId]/_components/modals/useCoverImageModal';
+import useCoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[documentId]/_components/modals/useCoverImageModal';
 import { Button } from './shadcn/button';
 import IconPicker from './IconPicker';
 

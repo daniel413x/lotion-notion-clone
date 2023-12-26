@@ -3,11 +3,11 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { ImageIcon, X } from 'lucide-react';
-import useCoverImageModal from '@/app/(main)/(routes)/documents/[documentId]/_components/modals/useCoverImageModal';
 import { Id } from '@/convex/_generated/dataModel';
 import { api } from '@/convex/_generated/api';
 import { useMutation } from 'convex/react';
 import { useEdgeStore } from '@/lib/edgestore';
+import useCoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[documentId]/_components/modals/useCoverImageModal';
 import { Button } from './shadcn/button';
 import { Skeleton } from './shadcn/skeleton';
 

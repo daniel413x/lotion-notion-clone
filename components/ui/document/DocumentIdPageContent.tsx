@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/common/shadcn/skeleton';
 import { useMemo } from 'react';
 import dynamic from 'next/dynamic';
-import CoverImageModal from '@/app/(main)/(routes)/documents/[documentId]/_components/modals/CoverImageModal';
+import CoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[documentId]/_components/modals/CoverImageModal';
 
 interface DocumentIdPageContentProps {
   params: {

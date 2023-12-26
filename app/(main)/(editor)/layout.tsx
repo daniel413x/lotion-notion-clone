@@ -3,7 +3,7 @@
 import { useConvexAuth } from 'convex/react';
 import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
-import LoadingSpinner from '../../components/ui/common/LoadingSpinner';
+import LoadingSpinner from '@/components/ui/common/LoadingSpinner';
 import Navigation from './_components/Navigation';
 import SearchCommandModal from './_components/modals/SearchCommandModal';
 import SettingsModal from './_components/modals/SettingsModal';
