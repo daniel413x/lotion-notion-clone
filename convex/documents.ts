@@ -29,13 +29,13 @@ export const archive = mutation({
     const identity = await getIdentity(ctx);
     const userId = identity.subject;
     await getDocumentAndVerifyOwnership(ctx, args.id, identity);
-    const recursiveArchive = async (documentId: Id<'documents'>) => {
+    const recursiveArchive = async (docId: Id<'documents'>) => {
       const children = await ctx.db
         .query('documents')
         .withIndex('by_user_parent', (q) => (
           q
             .eq('userId', userId)
-            .eq('parentDocument', documentId)
+            .eq('parentDocument', docId)
         ))
         .collect();
       await Promise.all(children.map(async (child) => {
@@ -45,11 +45,11 @@ export const archive = mutation({
         await recursiveArchive(child._id);
       }));
     };
-    const document = await ctx.db.patch(args.id, {
+    const doc = await ctx.db.patch(args.id, {
       isArchived: true,
     });
     recursiveArchive(args.id);
-    return document;
+    return doc;
   },
 });
 
@@ -96,14 +96,14 @@ export const create = mutation({
   handler: async (ctx, args) => {
     const identity = await getIdentity(ctx);
     const userId = identity.subject;
-    const document = await ctx.db.insert('documents', {
+    const doc = await ctx.db.insert('documents', {
       title: args.title,
       parentDocument: args.parentDocument,
       userId,
       isArchived: false,
       isPublished: false,
     });
-    return document;
+    return doc;
   },
 });
 
@@ -121,8 +121,8 @@ export const update = mutation({
     const identity = await getIdentity(ctx);
     const { id, ...props } = args;
     await getDocumentAndVerifyOwnership(ctx, args.id, identity);
-    const document = await ctx.db.patch(args.id, props);
-    return document;
+    const doc = await ctx.db.patch(args.id, props);
+    return doc;
   },
 });
 
@@ -131,10 +131,10 @@ export const removeIcon = mutation({
   handler: async (ctx, args) => {
     const identity = await getIdentity(ctx);
     await getDocumentAndVerifyOwnership(ctx, args.id, identity);
-    const document = await ctx.db.patch(args.id, {
+    const doc = await ctx.db.patch(args.id, {
       icon: undefined,
     });
-    return document;
+    return doc;
   },
 });
 
@@ -143,10 +143,10 @@ export const removeCoverImage = mutation({
   handler: async (ctx, args) => {
     const identity = await getIdentity(ctx);
     await getDocumentAndVerifyOwnership(ctx, args.id, identity);
-    const document = await ctx.db.patch(args.id, {
+    const doc = await ctx.db.patch(args.id, {
       coverImage: undefined,
     });
-    return document;
+    return doc;
   },
 });
 
@@ -156,13 +156,13 @@ export const restore = mutation({
     const identity = await getIdentity(ctx);
     const targetDocument = await getDocumentAndVerifyOwnership(ctx, args.id, identity);
     const userId = identity.subject;
-    const recursiveRestore = async (documentId: Id<'documents'>) => {
+    const recursiveRestore = async (docId: Id<'documents'>) => {
       const children = await ctx.db
         .query('documents')
         .withIndex('by_user_parent', (q) => (
           q
             .eq('userId', userId)
-            .eq('parentDocument', documentId)
+            .eq('parentDocument', docId)
         ))
         .collect();
       Promise.all(children.map(async (c) => {
@@ -181,9 +181,9 @@ export const restore = mutation({
         options.parentDocument = undefined;
       }
     }
-    const document = await ctx.db.patch(args.id, options);
+    const doc = await ctx.db.patch(args.id, options);
     await recursiveRestore(args.id);
-    return document;
+    return doc;
   },
 });
 
@@ -192,8 +192,8 @@ export const remove = mutation({
   handler: async (ctx, args) => {
     const identity = await getIdentity(ctx);
     await getDocumentAndVerifyOwnership(ctx, args.id, identity);
-    const document = await ctx.db.delete(args.id);
-    return document;
+    const doc = await ctx.db.delete(args.id);
+    return doc;
   },
 });
 
@@ -212,26 +212,26 @@ export const getSearch = query({
 });
 
 export const getById = query({
-  args: { documentId: v.id('documents'), metadata: v.optional(v.boolean()) },
+  args: { docId: v.id('documents'), metadata: v.optional(v.boolean()) },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    const document = await ctx.db.get(args.documentId);
+    const doc = await ctx.db.get(args.docId);
     if (args.metadata) {
-      return document;
+      return doc;
     }
-    if (!document) {
+    if (!doc) {
       throw new Error('Not found');
     }
-    if (document.isPublished && !document.isArchived) {
-      return document;
+    if (doc.isPublished && !doc.isArchived) {
+      return doc;
     }
     if (!identity) {
       throw new Error('Not authenticated');
     }
     const userId = identity.subject;
-    if (document.userId !== userId) {
+    if (doc.userId !== userId) {
       throw new Error('Unauthorized');
     }
-    return document;
+    return doc;
   },
 });

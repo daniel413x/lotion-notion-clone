@@ -16,7 +16,7 @@ const DocumentsPageContent = () => {
   const create = useMutation(api.documents.create);
   const onCreate = () => {
     const promise = create({ title: 'Untitled' })
-      .then((documentId) => router.push(`${DOCUMENTS_ROUTE}/${documentId}`));
+      .then((docId) => router.push(`${DOCUMENTS_ROUTE}/${docId}`));
     toast.promise(promise, {
       loading: 'Creating a new note...',
       success: 'New note created!',

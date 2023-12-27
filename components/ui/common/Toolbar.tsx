@@ -6,58 +6,58 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { ChangeEvent, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import useCoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[documentId]/_components/modals/useCoverImageModal';
+import useCoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[docId]/_components/modals/useCoverImageModal';
 import { EmojiClickData } from 'emoji-picker-react';
 import { Button } from './shadcn/button';
 import IconPicker from './IconPicker';
 
 interface ToolbarProps {
-  document: Doc<'documents'>;
+  doc: Doc<'documents'>;
   preview?: boolean;
 }
 
 const Toolbar = ({
-  document,
+  doc,
   preview,
 }: ToolbarProps) => {
   const {
     onOpen,
   } = useCoverImageModal();
-  const [title, setTitle] = useState<string>(document.title);
+  const [title, setTitle] = useState<string>(doc.title);
   const update = useMutation(api.documents.update);
   const removeIcon = useMutation(api.documents.removeIcon);
   const onInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     setTitle(e.target.value);
     update({
-      id: document._id,
+      id: doc._id,
       title: e.target.value || 'Untitled',
     });
   };
   const onIconSelect = (icon: EmojiClickData) => {
     update({
-      id: document._id,
+      id: doc._id,
       icon: icon.emoji,
       iconUrl: icon.imageUrl,
     });
   };
   const onRemoveIcon = () => {
     removeIcon({
-      id: document._id,
+      id: doc._id,
     });
   };
   return (
     <div
       className="pl-[54px] group relative"
     >
-      {/* document owner view */}
-      {(document.icon && !preview) ? (
+      {/* doc owner view */}
+      {(doc.icon && !preview) ? (
         <div className="flex items-center gap-x-2 group/icon pt-6">
           <IconPicker
             onChange={onIconSelect}
           >
             <p className="text-6xl hover:opacity-75 transition">
-              {document.icon}
+              {doc.icon}
             </p>
           </IconPicker>
           <Button
@@ -71,13 +71,13 @@ const Toolbar = ({
         </div>
       ) : null}
       {/* guest view */}
-      {(document.icon && preview) ? (
+      {(doc.icon && preview) ? (
         <p className="text-6xl pt-6">
-          {document.icon}
+          {doc.icon}
         </p>
       ) : null}
       <div className="absolute -top-12 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 flex items-center gap-x-1 py-4">
-        {(!document.icon && !preview) ? (
+        {(!doc.icon && !preview) ? (
           <IconPicker
             onChange={onIconSelect}
             asChild
@@ -92,7 +92,7 @@ const Toolbar = ({
             </Button>
           </IconPicker>
         ) : null}
-        {(!document.coverImage && !preview) ? (
+        {(!doc.coverImage && !preview) ? (
           <Button
             onClick={onOpen}
             className="text-muted-foreground text-xs"

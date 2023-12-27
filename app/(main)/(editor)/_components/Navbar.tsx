@@ -20,11 +20,11 @@ const Navbar = ({
   onResetWidth,
 }: NavbarProps) => {
   const params = useParams();
-  const document = useQuery(api.documents.getById, {
-    documentId: params.documentId as Id<'documents'>,
+  const doc = useQuery(api.documents.getById, {
+    docId: params.docId as Id<'documents'>,
   });
   const navbarStyling = 'bg-background dark:bg-[#1f1f1f] py-2 px-3 w-full flex items-center justify-between';
-  if (document === undefined) {
+  if (doc === undefined) {
     return (
       <nav className={cn(navbarStyling, 'justify-between')}>
         <Title.Skeleton />
@@ -32,7 +32,7 @@ const Navbar = ({
       </nav>
     );
   }
-  if (document === null) {
+  if (doc === null) {
     return null;
   }
   return (
@@ -40,15 +40,15 @@ const Navbar = ({
       <nav className={cn(navbarStyling, 'gap-x-4 transition')}>
         <MenuButton isCollapsed={isCollapsed} onResetWidth={onResetWidth} />
         <div className="flex items-center justify-between w-full">
-          <Title document={document} />
+          <Title doc={doc} />
           <div className="flex items-center gap-x-2">
-            <Publish document={document} />
-            <CommandsMenu documentId={document._id} />
+            <Publish doc={doc} />
+            <CommandsMenu docId={doc._id} />
           </div>
         </div>
       </nav>
-      {document.isArchived ? (
-        <Banner documentId={document._id} />
+      {doc.isArchived ? (
+        <Banner docId={doc._id} />
       ) : null}
     </>
   );

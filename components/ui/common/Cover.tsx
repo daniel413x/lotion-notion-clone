@@ -7,7 +7,7 @@ import { Id } from '@/convex/_generated/dataModel';
 import { api } from '@/convex/_generated/api';
 import { useMutation } from 'convex/react';
 import { useEdgeStore } from '@/lib/edgestore';
-import useCoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[documentId]/_components/modals/useCoverImageModal';
+import useCoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[docId]/_components/modals/useCoverImageModal';
 import { Button } from './shadcn/button';
 import { Skeleton } from './shadcn/skeleton';
 
@@ -15,7 +15,7 @@ interface CoverProps {
   coverImage?: string;
   preview?: boolean;
   params: {
-    documentId: Id<'documents'>,
+    docId: Id<'documents'>,
   }
 }
 
@@ -30,9 +30,9 @@ const Cover = ({
   } = useCoverImageModal();
   const removeCoverImage = useMutation(api.documents.removeCoverImage);
   const onRemove = () => {
-    if (params?.documentId && coverImage) {
+    if (params?.docId && coverImage) {
       removeCoverImage({
-        id: params.documentId,
+        id: params.docId,
       });
       edgestore.publicFiles.delete({
         url: coverImage,
@@ -55,7 +55,7 @@ const Cover = ({
         />
       ) : null}
       {coverImage && !preview ? (
-        <div className="opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2">
+        <div className="opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2 z-10">
           <Button
             className="text-muted-foreground text-xs"
             size="sm"

@@ -20,10 +20,10 @@ const DocumentList = ({
   const params = useParams();
   const router = useRouter();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const onExpand = (documentId: string) => {
+  const onExpand = (docId: string) => {
     setExpanded((prev) => ({
       ...prev,
-      [documentId]: !prev[documentId],
+      [docId]: !prev[docId],
     }));
   };
   const documents = useQuery(api.documents.getSidebar, {
@@ -42,8 +42,8 @@ const DocumentList = ({
       </>
     );
   }
-  const onRedirect = (documentId: string) => {
-    router.push(`/${DOCUMENTS_ROUTE}/${documentId}`);
+  const onRedirect = (docId: string) => {
+    router.push(`/${DOCUMENTS_ROUTE}/${docId}`);
   };
   return (
     <>
@@ -67,7 +67,7 @@ const DocumentList = ({
             label={d.title}
             icon={FileIcon}
             documentIcon={d.icon}
-            active={params.documentId === d._id}
+            active={params.docId === d._id}
             level={level}
             onExpand={() => onExpand(d._id)}
             expanded={expanded[d._id]}

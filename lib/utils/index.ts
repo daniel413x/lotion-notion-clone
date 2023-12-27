@@ -9,10 +9,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const generateDocumentPageMetadata: (documentId: Id<'documents'>) => Promise<Metadata> = async (documentId: Id<'documents'>) => {
+export const generateDocumentPageMetadata: (docId: Id<'documents'>) => Promise<Metadata> = async (docId: Id<'documents'>) => {
   const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
   const doc = await convex.query(api.documents.getById, {
-    documentId,
+    docId,
     metadata: true,
   });
   const metadata: Metadata = {

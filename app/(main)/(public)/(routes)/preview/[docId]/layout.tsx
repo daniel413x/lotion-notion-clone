@@ -7,14 +7,14 @@ export const revalidate = 300;
 
 type MetadataProps = {
   params: {
-    documentId: Id<'documents'>;
+    docId: Id<'documents'>;
   },
 };
 
 export async function generateMetadata(
   { params }: MetadataProps,
 ): Promise<Metadata> {
-  const metadata = await generateDocumentPageMetadata(params.documentId);
+  const metadata = await generateDocumentPageMetadata(params.docId);
   return metadata;
 }
 

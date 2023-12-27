@@ -10,11 +10,11 @@ import useInlineEditing from '@/lib/hooks/useInlineEditing';
 import { ChangeEvent, useState } from 'react';
 
 interface TitleProps {
-  document: Doc<'documents'>;
+  doc: Doc<'documents'>;
 }
 
 const Title = ({
-  document,
+  doc,
 }: TitleProps) => {
   const {
     inputRef,
@@ -23,19 +23,19 @@ const Title = ({
     disableEditing,
   } = useInlineEditing();
   const update = useMutation(api.documents.update);
-  const [title, setTitle] = useState<string>(document.title);
+  const [title, setTitle] = useState<string>(doc.title);
   const onChange = (
     e: ChangeEvent<HTMLInputElement>,
   ) => {
     setTitle(e.target.value);
     update({
-      id: document._id,
+      id: doc._id,
       title: e.target.value || 'Untitled',
     });
   };
   return (
     <div className="flex items-center gap-x-1">
-      {document.icon ? <p>{document.icon}</p> : null}
+      {doc.icon ? <p>{doc.icon}</p> : null}
       {isEditing ? (
         <Input
           ref={inputRef}
@@ -53,7 +53,7 @@ const Title = ({
           size="sm"
         >
           <span className="truncate">
-            {document.title}
+            {doc.title}
           </span>
         </Button>
       )}

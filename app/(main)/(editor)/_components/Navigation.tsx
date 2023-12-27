@@ -104,7 +104,7 @@ const Navigation = () => {
     const promise = create({
       title: 'Untitled',
     })
-      .then((documentId) => router.push(`/${DOCUMENTS_ROUTE}/${documentId}`));
+      .then((docId) => router.push(`/${DOCUMENTS_ROUTE}/${docId}`));
     toast.promise(promise, {
       loading: 'Creating a new note...',
       success: 'New note created!',
@@ -187,7 +187,7 @@ const Navigation = () => {
         )}
         ref={navbarRef}
       >
-        {params.documentId ? (
+        {params.docId ? (
           <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
         ) : (
           <nav className="bg-transparent px-3 py-2 w-full">

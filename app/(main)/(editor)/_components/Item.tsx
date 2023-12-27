@@ -59,11 +59,11 @@ const Item = ({
       return;
     }
     const promise = create({ title: 'Untitled', parentDocument: id })
-      .then((documentId) => {
+      .then((docId) => {
         if (!expanded) {
           onExpand?.();
         }
-        router.push(`/${DOCUMENTS_ROUTE}/${documentId}`);
+        router.push(`/${DOCUMENTS_ROUTE}/${docId}`);
         toast.promise(promise, {
           loading: 'Creating a new note...',
           success: 'New note created!',

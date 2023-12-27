@@ -38,7 +38,7 @@ const CoverImageModal = () => {
         },
       });
       await update({
-        id: params.documentId as Id<'documents'>,
+        id: params.docId as Id<'documents'>,
         coverImage: res.url,
       });
       onCloseModal();

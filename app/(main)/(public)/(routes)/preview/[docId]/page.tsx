@@ -3,7 +3,7 @@ import DocumentIdPageContent from '@/components/ui/document/DocumentIdPageConten
 
 interface DocumentIdPageProps {
   params: {
-    documentId: Id<'documents'>
+    docId: Id<'documents'>
   };
 }
 

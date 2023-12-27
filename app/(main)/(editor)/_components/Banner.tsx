@@ -10,16 +10,16 @@ import { toast } from 'sonner';
 import ConfirmModal from './modals/ConfirmModal';
 
 interface BannerProps {
-  documentId: Id<'documents'>;
+  docId: Id<'documents'>;
 }
 
 const Banner = ({
-  documentId,
+  docId,
 }: BannerProps) => {
   const router = useRouter();
   const restore = useMutation(api.documents.restore);
   const onRestore = () => {
-    const promise = restore({ id: documentId });
+    const promise = restore({ id: docId });
     toast.promise(promise, {
       loading: 'Restoring note...',
       success: 'Note restored!',
@@ -28,7 +28,7 @@ const Banner = ({
   };
   const remove = useMutation(api.documents.remove);
   const onRemove = () => {
-    const promise = remove({ id: documentId });
+    const promise = remove({ id: docId });
     toast.promise(promise, {
       loading: 'Deleted note...',
       success: 'Note deleted!',

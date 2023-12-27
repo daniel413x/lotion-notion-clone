@@ -15,17 +15,17 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 interface CommandsMenuProps {
-  documentId: Id<'documents'>;
+  docId: Id<'documents'>;
 }
 
 const CommandsMenu = ({
-  documentId,
+  docId,
 }: CommandsMenuProps) => {
   const router = useRouter();
   const { user } = useUser();
   const archive = useMutation(api.documents.archive);
   const onArchive = () => {
-    const promise = archive({ id: documentId });
+    const promise = archive({ id: docId });
     toast.promise(promise, {
       loading: 'Moving to trash...',
       success: 'Note moved to trash!',

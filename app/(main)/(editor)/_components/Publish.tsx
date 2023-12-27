@@ -12,21 +12,21 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface PublishProps {
-  document: Doc<'documents'>;
+  doc: Doc<'documents'>;
 }
 
 const Publish = ({
-  document,
+  doc,
 }: PublishProps) => {
   const origin = useOrigin();
   const update = useMutation(api.documents.update);
   const [copied, setCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const url = `${origin}/${PREVIEW_ROUTE}/${document._id}`;
+  const url = `${origin}/${PREVIEW_ROUTE}/${doc._id}`;
   const onPublish = () => {
     setIsSubmitting(true);
     const promise = update({
-      id: document._id,
+      id: doc._id,
       isPublished: true,
     })
       .finally(() => setIsSubmitting(false));
@@ -39,7 +39,7 @@ const Publish = ({
   const onUnpublish = () => {
     setIsSubmitting(true);
     const promise = update({
-      id: document._id,
+      id: doc._id,
       isPublished: false,
     })
       .finally(() => setIsSubmitting(false));
@@ -61,8 +61,8 @@ const Publish = ({
       <PopoverTrigger asChild>
         <Button size="sm" variant="ghost">
           Publish
-          {`${document.isPublished ? 'ed' : ' '}`}
-          {document.isPublished ? (
+          {`${doc.isPublished ? 'ed' : ' '}`}
+          {doc.isPublished ? (
             <Globe
               className="text-sky-500 w-4 h-4 ml-2"
             />
@@ -75,7 +75,7 @@ const Publish = ({
         alignOffset={8}
         forceMount
       >
-        {document.isPublished ? (
+        {doc.isPublished ? (
           <div className="space-y-4">
             <div className="flex items-center gap-x-2">
               <Globe className="text-sky-500 animate-pulse h-4 w-4" />

@@ -21,15 +21,15 @@ const TrashBin = () => {
   const remove = useMutation(api.documents.remove);
   const [search, setSearch] = useState('');
   const filteredDocuments = documents?.filter((d) => d.title.toLowerCase().includes(search.toLowerCase()));
-  const onClick = (documentId: string) => {
-    router.push(`/${DOCUMENTS_ROUTE}/${documentId}`);
+  const onClick = (docId: string) => {
+    router.push(`/${DOCUMENTS_ROUTE}/${docId}`);
   };
   const onRestore = (
     e: MouseEvent,
-    documentId: Id<'documents'>,
+    docId: Id<'documents'>,
   ) => {
     e.stopPropagation();
-    const promise = restore({ id: documentId });
+    const promise = restore({ id: docId });
     toast.promise(promise, {
       loading: 'Restoring note...',
       success: 'Note restored!',
@@ -37,15 +37,15 @@ const TrashBin = () => {
     });
   };
   const onRemove = (
-    documentId: Id<'documents'>,
+    docId: Id<'documents'>,
   ) => {
-    const promise = remove({ id: documentId });
+    const promise = remove({ id: docId });
     toast.promise(promise, {
       loading: 'Deleting note...',
       success: 'Note Deleted!',
       error: 'Failed to delete note.',
     });
-    if (params.documentId === documentId) {
+    if (params.docId === docId) {
       router.push(`/${DOCUMENTS_ROUTE}`);
     }
   };

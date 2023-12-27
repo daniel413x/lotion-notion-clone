@@ -9,11 +9,11 @@ import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/common/shadcn/skeleton';
 import { useMemo } from 'react';
 import dynamic from 'next/dynamic';
-import CoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[documentId]/_components/modals/CoverImageModal';
+import CoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[docId]/_components/modals/CoverImageModal';
 
 interface DocumentIdPageContentProps {
   params: {
-    documentId: Id<'documents'>;
+    docId: Id<'documents'>;
   };
   preview?: boolean;
 }
@@ -23,15 +23,15 @@ const DocumentIdPageContent = ({
   preview,
 }: DocumentIdPageContentProps) => {
   const Editor = useMemo(() => dynamic(() => import('@/components/ui/common/Editor'), { ssr: false }), []);
-  const document = useQuery(api.documents.getById, {
-    documentId: params.documentId,
+  const doc = useQuery(api.documents.getById, {
+    docId: params.docId,
   });
   const update = useMutation(api.documents.update);
   const wrapperStyle = cn('relative md:max-w-3xl lg:max-w-4xl mx-auto', {
-    'bottom-14': document?.icon,
-    'top-2': !document?.icon,
+    'bottom-14': doc?.icon,
+    'top-2': !doc?.icon,
   });
-  if (document === undefined) {
+  if (doc === undefined) {
     return (
       <div>
         <Cover.Skeleton />
@@ -46,7 +46,7 @@ const DocumentIdPageContent = ({
       </div>
     );
   }
-  if (document === null) {
+  if (doc === null) {
     return (
       <div>
         Not found
@@ -55,7 +55,7 @@ const DocumentIdPageContent = ({
   }
   const onChange = (content: string) => {
     update({
-      id: params.documentId,
+      id: params.docId,
       content,
     });
   };
@@ -64,15 +64,15 @@ const DocumentIdPageContent = ({
       <CoverImageModal />
       <div className="h-full pb-40 dark:bg-[#1f1f1f]">
         <Cover
-          coverImage={document.coverImage}
+          coverImage={doc.coverImage}
           params={params}
           preview={preview}
         />
         <div className={wrapperStyle}>
-          <Toolbar document={document} preview={preview} />
+          <Toolbar doc={doc} preview={preview} />
           <Editor
             onChange={onChange}
-            content={document.content || ''}
+            content={doc.content || ''}
             editable={!preview}
           />
         </div>
