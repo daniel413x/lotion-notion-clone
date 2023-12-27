@@ -7,6 +7,7 @@ import { api } from '@/convex/_generated/api';
 import { ChangeEvent, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import useCoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[documentId]/_components/modals/useCoverImageModal';
+import { EmojiClickData } from 'emoji-picker-react';
 import { Button } from './shadcn/button';
 import IconPicker from './IconPicker';
 
@@ -33,10 +34,11 @@ const Toolbar = ({
       title: e.target.value || 'Untitled',
     });
   };
-  const onIconSelect = (icon: string) => {
+  const onIconSelect = (icon: EmojiClickData) => {
     update({
       id: document._id,
-      icon,
+      icon: icon.emoji,
+      iconUrl: icon.imageUrl,
     });
   };
   const onRemoveIcon = () => {

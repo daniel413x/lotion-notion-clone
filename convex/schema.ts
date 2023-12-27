@@ -11,6 +11,7 @@ export default defineSchema({
     content: v.optional(v.string()),
     coverImage: v.optional(v.string()),
     icon: v.optional(v.string()),
+    iconUrl: v.optional(v.string()),
   })
     .index('by_user_parent', ['userId', 'parentDocument'])
     .index('by_user', ['userId']),

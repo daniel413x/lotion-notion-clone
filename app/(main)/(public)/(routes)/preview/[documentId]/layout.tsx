@@ -4,7 +4,7 @@ interface DocumentIdPageLayoutProps {
   children: ReactNode;
 }
 
-const DocumentIdPageLayout = async ({
+const DocumentIdPageLayout = ({
   children,
 }: DocumentIdPageLayoutProps) => (
   <main>
