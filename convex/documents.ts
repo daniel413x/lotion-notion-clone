@@ -212,10 +212,13 @@ export const getSearch = query({
 });
 
 export const getById = query({
-  args: { documentId: v.id('documents') },
+  args: { documentId: v.id('documents'), metadata: v.optional(v.boolean()) },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     const document = await ctx.db.get(args.documentId);
+    if (args.metadata) {
+      return document;
+    }
     if (!document) {
       throw new Error('Not found');
     }

@@ -4,17 +4,17 @@ import { useConvexAuth } from 'convex/react';
 import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
 import LoadingSpinner from '@/components/ui/common/LoadingSpinner';
-import Navigation from './_components/Navigation';
-import SearchCommandModal from './_components/modals/SearchCommandModal';
 import SettingsModal from './_components/modals/SettingsModal';
+import SearchCommandModal from './_components/modals/SearchCommandModal';
+import Navigation from './_components/Navigation';
 
-interface MainLayoutProps {
+interface EditorLayoutProps {
   children: ReactNode;
 }
 
-const MainLayout = ({
+const EditorLayout = ({
   children,
-}: MainLayoutProps) => {
+}: EditorLayoutProps) => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   if (isLoading) {
     return (
@@ -36,4 +36,4 @@ const MainLayout = ({
   );
 };
 
-export default MainLayout;
+export default EditorLayout;
