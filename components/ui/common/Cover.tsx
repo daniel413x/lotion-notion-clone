@@ -8,6 +8,7 @@ import { api } from '@/convex/_generated/api';
 import { useMutation } from 'convex/react';
 import { useEdgeStore } from '@/lib/edgestore';
 import useCoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[docId]/_components/modals/useCoverImageModal';
+import useTapShow from '@/lib/hooks/useTapShow';
 import { Button } from './shadcn/button';
 import { Skeleton } from './shadcn/skeleton';
 
@@ -24,9 +25,16 @@ const Cover = ({
   preview,
   params,
 }: CoverProps) => {
+  const {
+    handleClick,
+    isMobile,
+    ref,
+    show: showButtons,
+  } = useTapShow();
   const { edgestore } = useEdgeStore();
   const {
     onReplace,
+    onOpen,
   } = useCoverImageModal();
   const removeCoverImage = useMutation(api.documents.removeCoverImage);
   const onRemove = () => {
@@ -42,9 +50,10 @@ const Cover = ({
   return (
     <div
       className={cn('relative w-full h-[35vh] group', {
-        'h-[12vh]': !coverImage,
+        'h-[284.9px]': !coverImage,
         'bg-muted': coverImage,
       })}
+      ref={ref}
     >
       {coverImage ? (
         <Image
@@ -55,12 +64,15 @@ const Cover = ({
         />
       ) : null}
       {coverImage && !preview ? (
-        <div className="opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2 z-10">
+        <div className={cn('opacity-0 group-hover:opacity-100 focus-within:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2 z-10', {
+          'opacity-100': isMobile && showButtons,
+        })}
+        >
           <Button
             className="text-muted-foreground text-xs"
             size="sm"
             variant="outline"
-            onClick={() => onReplace(coverImage)}
+            onClick={() => handleClick(() => onReplace(coverImage))}
           >
             <ImageIcon className="x-4 w-4 mr-2" />
             Change cover
@@ -69,13 +81,21 @@ const Cover = ({
             className="text-muted-foreground text-xs"
             size="sm"
             variant="outline"
-            onClick={onRemove}
+            onClick={() => handleClick(onRemove)}
           >
             <X className="x-4 w-4 mr-2" />
             Remove
           </Button>
         </div>
       ) : null}
+      <Button
+        className={cn('absolute inset-0 w-full h-full', {
+          'pointer-events-none': preview,
+        })}
+        variant="blank"
+        tabIndex={-1}
+        onClick={() => (!coverImage && !preview ? onOpen() : handleClick())}
+      />
     </div>
   );
 };

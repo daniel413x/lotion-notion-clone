@@ -49,7 +49,7 @@ const CoverImageModal = () => {
       <DialogContent>
         <DialogHeader className="border-b pb-3">
           <h2 className="text-lg font-medium">
-            My settings
+            Cover Image
           </h2>
         </DialogHeader>
         <div>

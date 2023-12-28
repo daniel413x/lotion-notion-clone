@@ -8,6 +8,8 @@ import { ChangeEvent, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import useCoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[docId]/_components/modals/useCoverImageModal';
 import { EmojiClickData } from 'emoji-picker-react';
+import useTapShow from '@/lib/hooks/useTapShow';
+import { cn } from '@/lib/utils';
 import { Button } from './shadcn/button';
 import IconPicker from './IconPicker';
 
@@ -20,6 +22,12 @@ const Toolbar = ({
   doc,
   preview,
 }: ToolbarProps) => {
+  const {
+    handleClick,
+    isMobile,
+    ref,
+    show: showButtons,
+  } = useTapShow();
   const {
     onOpen,
   } = useCoverImageModal();
@@ -52,7 +60,15 @@ const Toolbar = ({
     >
       {/* doc owner view */}
       {(doc.icon && !preview) ? (
-        <div className="flex items-center gap-x-2 group/icon pt-6">
+        <div className="relative flex items-center gap-x-2 group/icon pt-6" ref={ref}>
+          <Button
+            className={cn('absolute inset-0 w-full h-full', {
+              'pointer-events-none': showButtons,
+            })}
+            variant="blank"
+            tabIndex={-1}
+            onClick={() => handleClick()}
+          />
           <IconPicker
             onChange={onIconSelect}
           >
@@ -61,10 +77,13 @@ const Toolbar = ({
             </p>
           </IconPicker>
           <Button
-            className="rounded-full opacity-0 group-hover/icon:opacity-100 transition text-muted-foreground text-xs group-focus-within:opacity-100"
+            className={cn('rounded-full opacity-0 group-hover/icon:opacity-100 transition text-muted-foreground text-xs group-focus-within:opacity-100', {
+              'opacity-100': isMobile && showButtons,
+            })}
             onClick={onRemoveIcon}
             variant="outline"
             size="icon"
+            title="Remove icon"
           >
             <X className="h-4 w-4" />
           </Button>

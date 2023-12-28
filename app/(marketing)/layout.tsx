@@ -10,7 +10,7 @@ const MarketingLayout = ({
 }: MarketingLayoutProps) => (
   <div className="h-full dark:bg-[#1f1f1f]">
     <Navbar />
-    <main className="pt-40">
+    <main className="pt-40" tabIndex={-1}>
       {children}
     </main>
   </div>
