@@ -52,7 +52,7 @@ const Title = ({
           variant="ghost"
           size="sm"
         >
-          <span className="truncate">
+          <span className="truncate max-w-[30vw]">
             {doc.title}
           </span>
         </Button>

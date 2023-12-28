@@ -25,7 +25,7 @@ interface DocumentIdPageLayoutProps {
 const DocumentIdPageLayout = async ({
   children,
 }: DocumentIdPageLayoutProps) => (
-  <main>
+  <main tabIndex={-1}>
     {children}
   </main>
 );

@@ -56,7 +56,7 @@ const Toolbar = ({
   };
   return (
     <div
-      className="pl-[54px] group relative"
+      className="px-[54px] group relative"
     >
       {/* doc owner view */}
       {(doc.icon && !preview) ? (
@@ -126,7 +126,7 @@ const Toolbar = ({
       <TextareaAutosize
         value={title}
         onChange={onInput}
-        className="mt-4 text-5xl bg-transparent font-bold break-words outline-none text-[#3f3f3f] dark:text-[#cfcfcf] resize-none"
+        className="mt-4 text-5xl bg-transparent font-bold break-words outline-none text-[#3f3f3f] dark:text-[#cfcfcf] resize-none max-w-[100%]"
         readOnly={preview}
       />
     </div>
