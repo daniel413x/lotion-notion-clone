@@ -3,7 +3,7 @@ import { generateDocumentPageMetadata } from '@/lib/utils';
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 type MetadataProps = {
   params: {

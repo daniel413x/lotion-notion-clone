@@ -3,7 +3,7 @@ import DocumentIdPageContent from '@/components/ui/document/DocumentIdPageConten
 import { Metadata } from 'next';
 import { generateDocumentPageMetadata } from '@/lib/utils';
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 type MetadataProps = {
   params: {

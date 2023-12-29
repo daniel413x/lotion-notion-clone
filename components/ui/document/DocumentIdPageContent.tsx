@@ -7,9 +7,10 @@ import { useMutation, useQuery } from 'convex/react';
 import Cover from '@/components/ui/common/Cover';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/common/shadcn/skeleton';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import CoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[docId]/_components/modals/CoverImageModal';
+import { useDocumentTitle } from 'usehooks-ts';
 
 interface DocumentIdPageContentProps {
   params: {
@@ -26,6 +27,14 @@ const DocumentIdPageContent = ({
   const doc = useQuery(api.documents.getById, {
     docId: params.docId,
   });
+  // update document title and icon dynamically if changed in the editor
+  useDocumentTitle(doc?.title || 'Untitled');
+  useEffect(() => {
+    const favicon = document.querySelector('link[rel~=\'icon\']') as HTMLLinkElement;
+    if (favicon && doc?.iconUrl && doc.iconUrl !== favicon.href) {
+      favicon.href = doc.iconUrl;
+    }
+  }, [doc?.iconUrl]);
   const update = useMutation(api.documents.update);
   const wrapperStyle = cn('relative md:max-w-3xl lg:max-w-4xl mx-auto', {
     'bottom-14': doc?.icon,
