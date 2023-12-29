@@ -7,7 +7,9 @@ import { Doc } from '@/convex/_generated/dataModel';
 import { useMutation } from 'convex/react';
 import { Input } from '@/components/ui/common/shadcn/input';
 import useInlineEditing from '@/lib/hooks/useInlineEditing';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useMediaQuery } from 'usehooks-ts';
+import { cn } from '@/lib/utils';
 
 interface TitleProps {
   doc: Doc<'documents'>;
@@ -16,6 +18,7 @@ interface TitleProps {
 const Title = ({
   doc,
 }: TitleProps) => {
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const {
     inputRef,
     isEditing,
@@ -33,6 +36,9 @@ const Title = ({
       title: e.target.value || 'Untitled',
     });
   };
+  useEffect(() => {
+    setTitle(doc.title);
+  }, [doc.title]);
   return (
     <div className="flex items-center gap-x-1">
       {doc.icon ? <p>{doc.icon}</p> : null}
@@ -43,7 +49,7 @@ const Title = ({
           onBlur={disableEditing}
           value={title}
           onChange={onChange}
-          className="h-7 pe-2 focus-visible:ring-transparent border-0 ps-[0.25rem]"
+          className="h-7 pe-2 focus-visible:ring-transparent border-0 ps-[0.25rem] bg-transparent focus-visible:ring-offset-transparent"
         />
       ) : (
         <Button
@@ -52,7 +58,11 @@ const Title = ({
           variant="ghost"
           size="sm"
         >
-          <span className="truncate max-w-[30vw]">
+          <span className={cn('truncate', {
+            'max-w-[30vw]': isMobile,
+            'max-w-[206px]': !isMobile,
+          })}
+          >
             {doc.title}
           </span>
         </Button>

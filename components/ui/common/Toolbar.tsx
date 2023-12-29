@@ -4,7 +4,7 @@ import { Doc } from '@/convex/_generated/dataModel';
 import { ImageIcon, Smile, X } from 'lucide-react';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import useCoverImageModal from '@/app/(main)/(editor)/(routes)/documents/[docId]/_components/modals/useCoverImageModal';
 import { EmojiClickData } from 'emoji-picker-react';
@@ -54,6 +54,9 @@ const Toolbar = ({
       id: doc._id,
     });
   };
+  useEffect(() => {
+    setTitle(doc.title);
+  }, [doc.title]);
   return (
     <div
       className="px-[54px] group relative"
