@@ -7,14 +7,15 @@ import {
 } from 'lucide-react';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import {
-  ElementRef, MouseEvent, useEffect, useRef, useState,
+  MouseEvent, useEffect, useRef, useState,
 } from 'react';
-import { useMediaQuery } from 'usehooks-ts';
+import { useMediaQuery, useWindowSize, useEventListener } from 'usehooks-ts';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/common/shadcn/popover';
 import { DOCUMENTS_ROUTE } from '@/lib/data/routes';
+import useTrackRefDimensions from '@/lib/hooks/useTrackRefDimensions';
 import useSearchModal from '../hooks/useSearchModal';
 import UserItem from './UserItem';
 import Item from './Item';
@@ -25,14 +26,26 @@ import Navbar from './Navbar';
 import MenuButton from './MenuButton';
 
 const Navigation = () => {
+  const { width: bodyWidth } = useWindowSize();
   const router = useRouter();
   const create = useMutation(api.documents.create);
   const pathname = usePathname();
   const params = useParams();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isResizingRef = useRef(false);
-  const sidebarRef = useRef<ElementRef<'aside'>>(null);
-  const navbarRef = useRef<ElementRef<'div'>>(null);
+  const {
+    ref: sidebarRef,
+    width: sidebarW,
+  } = useTrackRefDimensions();
+  const {
+    ref: navbarRef,
+  } = useTrackRefDimensions();
+  const handleResize = () => {
+    if (navbarRef.current) {
+      navbarRef.current.style.setProperty('width', `${bodyWidth - sidebarW}px`);
+    }
+  };
+  useEventListener('resize', handleResize);
   const [isResetting, setIsResetting] = useState<boolean>(false);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const handleResizerMouseMove = (e: MouseEvent) => {
@@ -49,7 +62,7 @@ const Navigation = () => {
       }
       sidebarRef.current.style.setProperty('width', `${newWidth}px`);
       navbarRef.current.style.setProperty('left', `${newWidth}px`);
-      navbarRef.current.style.setProperty('width', `calc(100%) - ${newWidth}px`);
+      navbarRef.current.style.setProperty('width', `${bodyWidth - newWidth}px`);
     }
   };
   const handleResizerMouseUp = () => {
