@@ -36,7 +36,7 @@ interface RootLayoutProps {
 const RootLayout = ({
   children,
 }: RootLayoutProps) => (
-  <html lang="en">
+  <html lang="en" suppressHydrationWarning>
     <ConvexProvider>
       <EdgeStoreProvider>
         <body className={inter.className}>
