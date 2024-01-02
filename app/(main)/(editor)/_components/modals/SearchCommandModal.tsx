@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import {
   CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
 } from '@/components/ui/common/shadcn/command';
-import useSearchModal from '../../hooks/useSearchModal';
+import useSearchModal from '../../_hooks/useSearchModal';
 
 const SearchCommandModal = () => {
   const { user } = useUser();

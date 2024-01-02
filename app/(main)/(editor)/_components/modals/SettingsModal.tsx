@@ -3,7 +3,7 @@ import {
 } from '@/components/ui/common/shadcn/dialog';
 import { ModeToggle } from '@/components/ui/common/ModeToggle';
 import { Label } from '@/components/ui/common/shadcn/label';
-import useSettingsModal from '../../hooks/useSettingsModal';
+import useSettingsModal from '../../_hooks/useSettingsModal';
 
 const SettingsModal = () => {
   const {

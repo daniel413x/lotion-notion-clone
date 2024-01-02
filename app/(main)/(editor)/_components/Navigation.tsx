@@ -16,12 +16,12 @@ import { toast } from 'sonner';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/common/shadcn/popover';
 import { DOCUMENTS_ROUTE } from '@/lib/data/routes';
 import useTrackRefDimensions from '@/lib/hooks/useTrackRefDimensions';
-import useSearchModal from '../hooks/useSearchModal';
+import useSearchModal from '../_hooks/useSearchModal';
 import UserItem from './UserItem';
 import Item from './Item';
 import DocumentList from './DocumentList';
 import TrashBin from './TrashBin';
-import useSettingsModal from '../hooks/useSettingsModal';
+import useSettingsModal from '../_hooks/useSettingsModal';
 import Navbar from './Navbar';
 import MenuButton from './MenuButton';
 
